@@ -1,0 +1,46 @@
+
+--In this SQL, I am calling a database with multiple tables about customers and order data in it
+SELECT * FROM JanSales LIMIT 5;
+
+--How many orders were placed in January?
+SELECT Count(orderID)
+FROM BIT_DB.JanSales
+WHERE length(orderID)=6;
+
+--How many of those orders where for iPhone?
+SELECT COUNT(orderID)
+FROM BIT_DB.JanSales
+WHERE length(orderID)=6
+AND Product='iPhone';
+
+--Select the customer account number for all the orders that were placed in February?
+SELECT DISTINCT acctnum 
+FROM BIT_DB.customers cust
+INNER JOIN BIT_DB.FebSales Feb
+ON cust.order_id=Feb.orderID
+WHERE length(order_id) = 6;
+
+--Which was the cheapest product sold in January and its price
+SELECT DISTINCT Product, price
+FROM BIT_DB.JanSales
+WHERE price IN(SELECT MIN(price) FROM BIT_DB.JanSales);
+
+--What is the total revenue generated for each product sold in January?
+SELECT product, SUM(Quantity)*price AS revenue
+FROM BIT_DB.JanSales
+GROUP BY Product;
+
+--Which product were sold in February at 548 Lincoln St, Seattle, WA 98101, and how many of each were sold and what was the total revenue?
+SELECT product,SUM(Quantity),SUM(Quantity)*price AS revenue
+FROM BIT_DB.FebSales
+WHERE location='548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+
+--How many customers ordered more than 2 products in February and what was the average amount spent for those customers
+SELECT Count(DISTINCT cust.acctnum), AVG(Quantity*price) 
+FROM BIT_DB.customers AS cust
+INNER JOIN BIT_DB.FebSales AS feb
+ON cust.order_id=feb.orderID
+WHERE Feb.Quantity > 2
+
+
