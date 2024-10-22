@@ -1,0 +1,41 @@
+--For this project I downloaded Spotify dataset Kaggle
+--Then I created a table to insert the data into
+--Finally I performed analytics on the data using SQL 
+
+--Creating the table:
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+--Then I inserted the Spotify data, .csv into the table
+-- I explored the data using the below SQL
+
+-- To get a picture about the data in the table
+SELECT * FROM BIT_DB.SpotifyData LIMIT 5;
+
+--Avaerage popularity and danceability by artist and track
+SELECT artist_name,track_name,AVG(popularity), AVG(danceability)
+FROM BIT_DB.SpotifyData
+GROUP BY artist_name,track_name;
+
+--Top 10 artists by popularity
+SELECT artist_name,track_name,popularity
+FROM BIT_DB.SpotifyData
+ORDER BY popularity DESC
+LIMIT 10;
